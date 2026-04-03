@@ -9,7 +9,7 @@ def create_student_score_matrix(num_students: int, num_subjects: int) -> np.ndar
     INPUT: Öğrenci sayısı (int), ders sayısı (int)
     OUTPUT: 0-100 arası random puanlardan oluşan bir numpy array (shape: [num_students, num_subjects])
     """
-    pass
+    return np.random.randint(0, 101, size=(num_students, num_subjects))
 
 #Input: scores: np.ndarray
 #Output: 1D Numpy dizisi (her dersin ortalama puanı)
@@ -20,7 +20,7 @@ def calculate_mean_per_subject(scores: np.ndarray) -> np.ndarray:
     INPUT: [öğrenci, ders] formatında puan matrisini alır
     OUTPUT: Her ders için ortalama puan (1D array)
     """
-    pass
+    return np.mean(scores, axis=0)
 
 #Input: scores: np.ndarray
 #Output: 1D Numpy dizisi (her öğrencinin not varyansı)
@@ -31,7 +31,7 @@ def calculate_student_variance(scores: np.ndarray) -> np.ndarray:
     INPUT: Puan matrisi
     OUTPUT: Her öğrenci için varyans (1D array)
     """
-    pass
+    return np.var(scores, axis=1)
 
 #Input: scores: np.ndarray
 #Output: np.ndarray (puanı %10 artırılmış, 100'ü geçmeyen yeni matris)
@@ -42,7 +42,8 @@ def apply_magic_curve(scores: np.ndarray) -> np.ndarray:
     INPUT: Puan matrisi
     OUTPUT: Tüm puanları %10 artır (max 100 olacak şekilde clip'le)
     """
-    pass
+    curved = scores * 1.10
+    return np.clip(curved, 0, 100) 
 
 #Input: scores: np.ndarray, threshold: float
 #Output: np.ndarray (threshold üzerindeki ortalamaya sahip öğrencilerin index listesi)
@@ -53,7 +54,8 @@ def get_top_students(scores: np.ndarray, threshold: float) -> np.ndarray:
     INPUT: Puan matrisi, eşik değeri
     OUTPUT: Ortalama puanı threshold üzerinde olan öğrencilerin index listesi
     """
-    pass
+    mean_scores = np.mean(scores, axis=1)
+    return np.where(mean_scores > threshold)[0]
 
 #Input: scores: np.ndarray
 #Output: 1D Numpy dizisi (her ders için en yüksek puan)
@@ -64,7 +66,7 @@ def subject_wise_max_scores(scores: np.ndarray) -> np.ndarray:
     INPUT: Puan matrisi
     OUTPUT: Her ders için alınan en yüksek puan (1D array)
     """
-    pass
+    return np.max(scores, axis=0)
 
 #Input: scores: np.ndarray, start: int, end: int
 #Output: np.ndarray (seçilen aralıktaki öğrencilerin puanları)
@@ -75,7 +77,7 @@ def slice_students_by_index(scores: np.ndarray, start: int, end: int) -> np.ndar
     INPUT: Puan matrisi, başlangıç ve bitiş indexi
     OUTPUT: Verilen index aralığındaki öğrencilerin puanları
     """
-    pass
+    return scores[start:end]
 
 #Input: scores: np.ndarray
 #Output: 1D Numpy dizisi (her dersin standart sapması)
@@ -86,7 +88,7 @@ def calculate_subject_std(scores: np.ndarray) -> np.ndarray:
     INPUT: Puan matrisi
     OUTPUT: Her ders için standart sapma
     """
-    pass
+    return np.std(scores, axis=0)
 
 #Input: scores: np.ndarray
 #Output: np.ndarray (0 ile 1 arası normalize edilmiş matris)
@@ -97,4 +99,6 @@ def normalize_scores(scores: np.ndarray) -> np.ndarray:
     INPUT: Puan matrisi
     OUTPUT: Tüm puanları 0-1 arasında normalize et
     """
-    pass
+    min_val = np.min(scores)
+    max_val = np.max(scores)
+    return (scores - min_val) / (max_val - min_val)
